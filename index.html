@@ -9,60 +9,54 @@
   body {
     margin: 0;
     height: 100vh;
-    font-family: "Poppins", sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom right, #ff5f9e, #ff99cc);
     overflow: hidden;
-    transition: 1s;
+    font-family: "Poppins", sans-serif;
   }
 
-  /* Premium Card */
+  /* Background Photo */
+  .bg {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background: url("subbu.jpg") center/cover no-repeat;
+    filter: brightness(0.6);
+    z-index: -2;
+  }
+
+  /* Proposal Card */
   .card {
-    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 85%;
     max-width: 380px;
-    padding: 35px;
+    padding: 30px;
     text-align: center;
     border-radius: 25px;
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255,255,255,0.15);
     backdrop-filter: blur(12px);
-    box-shadow: 0 0 25px rgba(0,0,0,0.25);
     color: white;
+    box-shadow: 0 0 25px rgba(0,0,0,0.4);
   }
 
-  h1 {
-    font-size: 2rem;
-    margin-bottom: 10px;
-  }
-
-  h2 {
-    font-weight: 300;
-    font-size: 1.2rem;
-    margin-bottom: 25px;
-  }
+  h1 { font-size: 2rem; }
+  h2 { font-weight: 300; }
 
   /* Heart Buttons */
   .heart-btn {
-    width: 120px;
-    height: 110px;
+    width: 115px;
+    height: 105px;
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
     color: white;
-    position: relative;
-    margin: 15px;
     clip-path: polygon(
-      50% 85%,
-      90% 50%,
-      75% 15%,
-      50% 30%,
-      25% 15%,
-      10% 50%
+      50% 85%, 90% 50%, 75% 15%, 
+      50% 30%, 25% 15%, 10% 50%
     );
-    box-shadow: 0 0 15px rgba(255,255,255,0.4);
-    transition: 0.3s;
+    margin: 15px;
   }
 
   #yesBtn {
@@ -74,51 +68,72 @@
     position: absolute;
   }
 
-  /* Celebration Screen */
+  /* Celebration Full Screen */
   #celebrate {
     display: none;
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to bottom, #ff1a75, #ffb3d9);
+    position: fixed;
+    inset: 0;
+    background: rgba(255,0,100,0.85);
+    color: white;
+    font-size: 2.5rem;
+    font-weight: bold;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    color: white;
-    font-size: 2.2rem;
-    font-weight: bold;
-  }
-
-  /* Scrolling Text */
-  .scroll-text {
-    position: relative;
     overflow: hidden;
-    height: 60px;
-    width: 100%;
-    margin-top: 20px;
   }
 
-  .scroll-text span {
+  /* Full Screen Scrolling Text */
+  .scrolling {
     position: absolute;
     width: 100%;
-    animation: scrollUp 3s linear infinite;
+    height: 100%;
+    animation: scrollScreen 6s linear infinite;
     text-align: center;
+    font-size: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
   }
 
-  .scroll-text span:nth-child(2) {
-    animation-delay: 1.5s;
+  @keyframes scrollScreen {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(-100%); }
   }
 
-  @keyframes scrollUp {
-    0% { top: 100%; opacity: 0; }
-    20% { top: 40%; opacity: 1; }
-    80% { top: 0%; opacity: 1; }
-    100% { top: -100%; opacity: 0; }
+  /* Fireworks */
+  .firework {
+    position: absolute;
+    font-size: 30px;
+    animation: explode 1s ease-out infinite;
+  }
+
+  @keyframes explode {
+    0% { transform: scale(0); opacity: 1; }
+    100% { transform: scale(2.5); opacity: 0; }
+  }
+
+  /* Text Soori */
+  .final-msg {
+    position: absolute;
+    bottom: 40px;
+    font-size: 2rem;
+    background: rgba(0,0,0,0.4);
+    padding: 15px 25px;
+    border-radius: 20px;
   }
 </style>
 </head>
 
 <body>
+
+<div class="bg"></div>
+
+<!-- Music (Local File) -->
+<audio id="music" loop>
+  <source src="asalem.mp3" type="audio/mpeg">
+</audio>
 
 <!-- Proposal Card -->
 <div class="card" id="card">
@@ -130,11 +145,15 @@
   <button class="heart-btn" id="noBtn">NO 🙈</button>
 </div>
 
-<!-- Celebration -->
+<!-- Celebration Screen -->
 <div id="celebrate">
-  <div class="scroll-text">
-    <span>💖 Soori Loves Subbu 💖</span>
-    <span>🌹 Happy Valentine’s Day Subbu 🌹</span>
+  <div class="scrolling">
+    💖 Soori Loves Subbu 💖  
+    🌹 Happy Valentine’s Day Subbu 🌹  
+  </div>
+
+  <div class="final-msg">
+    Text Soori 😘
   </div>
 </div>
 
@@ -143,20 +162,36 @@
   const yesBtn = document.getElementById("yesBtn");
   const card = document.getElementById("card");
   const celebrate = document.getElementById("celebrate");
+  const music = document.getElementById("music");
 
-  // NO button runs away (mobile touch)
+  // NO runs away
   noBtn.addEventListener("touchstart", () => {
     let x = Math.random() * (window.innerWidth - 150);
     let y = Math.random() * (window.innerHeight - 150);
-
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
   });
+
+  // Fireworks effect
+  function fireworks() {
+    for (let i = 0; i < 12; i++) {
+      const fw = document.createElement("div");
+      fw.classList.add("firework");
+      fw.innerHTML = "🎆";
+      fw.style.left = Math.random() * 100 + "vw";
+      fw.style.top = Math.random() * 100 + "vh";
+      document.body.appendChild(fw);
+
+      setTimeout(() => fw.remove(), 1000);
+    }
+  }
 
   // YES triggers celebration
   yesBtn.addEventListener("click", () => {
     card.style.display = "none";
     celebrate.style.display = "flex";
+    music.play();
+    setInterval(fireworks, 800);
   });
 </script>
 
