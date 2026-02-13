@@ -13,14 +13,14 @@
     font-family: "Poppins", sans-serif;
   }
 
-  /* Background Photo */
+  /* Background Photo (Fixed Zoom) */
   .bg {
     position: fixed;
-    width: 100%;
-    height: 100%;
-    background: url("subbu.jpg") center/cover no-repeat;
-    filter: brightness(0.6);
-    z-index: -2;
+    inset: 0;
+    background: url("subbu.jpg") center/contain no-repeat;
+    background-color: black;
+    filter: brightness(0.65);
+    z-index: -3;
   }
 
   /* Proposal Card */
@@ -31,70 +31,72 @@
     transform: translate(-50%, -50%);
     width: 85%;
     max-width: 380px;
-    padding: 30px;
+    padding: 35px;
     text-align: center;
-    border-radius: 25px;
+    border-radius: 30px;
     background: rgba(255,255,255,0.15);
-    backdrop-filter: blur(12px);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 35px rgba(0,0,0,0.45);
     color: white;
-    box-shadow: 0 0 25px rgba(0,0,0,0.4);
   }
 
   h1 { font-size: 2rem; }
   h2 { font-weight: 300; }
 
-  /* Heart Buttons */
+  /* Better Heart Buttons */
   .heart-btn {
-    width: 115px;
-    height: 105px;
+    width: 110px;
+    height: 100px;
     border: none;
     cursor: pointer;
     font-size: 18px;
     font-weight: bold;
     color: white;
-    clip-path: polygon(
-      50% 85%, 90% 50%, 75% 15%, 
-      50% 30%, 25% 15%, 10% 50%
-    );
-    margin: 15px;
+    margin: 18px;
+    border-radius: 20px;
+    position: relative;
+    clip-path: path("M55 90 C20 65, 0 40, 20 20 C35 0, 55 20, 55 30 C55 20, 75 0, 90 20 C110 40, 90 65, 55 90 Z");
+    transition: 0.3s;
   }
 
   #yesBtn {
-    background: linear-gradient(to right, #00ff99, #00cc66);
+    background: linear-gradient(to right, #00ffcc, #00cc66);
+    box-shadow: 0 0 18px rgba(0,255,200,0.6);
   }
 
   #noBtn {
-    background: linear-gradient(to right, #ff3333, #cc0000);
+    background: linear-gradient(to right, #ff3366, #cc0000);
     position: absolute;
+    box-shadow: 0 0 18px rgba(255,50,80,0.6);
   }
 
-  /* Celebration Full Screen */
+  /* Celebration Screen (Pleasant Background) */
   #celebrate {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(255,0,100,0.85);
-    color: white;
-    font-size: 2.5rem;
-    font-weight: bold;
+    background: linear-gradient(to bottom, #ffb6c1, #ffe6f2);
+    color: #b30059;
     justify-content: center;
     align-items: center;
     flex-direction: column;
     overflow: hidden;
+    z-index: 10;
   }
 
-  /* Full Screen Scrolling Text */
+  /* Slower Scrolling Text */
   .scrolling {
     position: absolute;
     width: 100%;
     height: 100%;
-    animation: scrollScreen 6s linear infinite;
+    font-size: 2.8rem;
+    font-weight: bold;
     text-align: center;
-    font-size: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 40px;
+    gap: 60px;
+    animation: scrollScreen 12s linear infinite;
   }
 
   @keyframes scrollScreen {
@@ -102,26 +104,28 @@
     100% { transform: translateY(-100%); }
   }
 
-  /* Fireworks */
-  .firework {
+  /* Falling Hearts */
+  .fall-heart {
     position: absolute;
-    font-size: 30px;
-    animation: explode 1s ease-out infinite;
+    font-size: 22px;
+    animation: fall 6s linear infinite;
   }
 
-  @keyframes explode {
-    0% { transform: scale(0); opacity: 1; }
-    100% { transform: scale(2.5); opacity: 0; }
+  @keyframes fall {
+    0% { transform: translateY(-10vh); opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
   }
 
-  /* Text Soori */
+  /* Final Message */
   .final-msg {
     position: absolute;
     bottom: 40px;
-    font-size: 2rem;
-    background: rgba(0,0,0,0.4);
+    font-size: 1.8rem;
     padding: 15px 25px;
-    border-radius: 20px;
+    border-radius: 25px;
+    background: rgba(255,255,255,0.6);
+    color: #cc0066;
+    box-shadow: 0 0 15px rgba(255,255,255,0.6);
   }
 </style>
 </head>
@@ -130,12 +134,12 @@
 
 <div class="bg"></div>
 
-<!-- Music (Local File) -->
+<!-- Music -->
 <audio id="music" loop>
-  <source src="asalem.mp3" type="audio/mpeg">
+  <source src="song.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Proposal Card -->
+<!-- Proposal -->
 <div class="card" id="card">
   <h1>Hey Subbu ❤️</h1>
   <h2>Soori wants to ask you...</h2>
@@ -145,7 +149,7 @@
   <button class="heart-btn" id="noBtn">NO 🙈</button>
 </div>
 
-<!-- Celebration Screen -->
+<!-- Celebration -->
 <div id="celebrate">
   <div class="scrolling">
     💖 Soori Loves Subbu 💖  
@@ -164,7 +168,7 @@
   const celebrate = document.getElementById("celebrate");
   const music = document.getElementById("music");
 
-  // NO runs away
+  // NO Button Escape
   noBtn.addEventListener("touchstart", () => {
     let x = Math.random() * (window.innerWidth - 150);
     let y = Math.random() * (window.innerHeight - 150);
@@ -172,26 +176,29 @@
     noBtn.style.top = y + "px";
   });
 
-  // Fireworks effect
-  function fireworks() {
-    for (let i = 0; i < 12; i++) {
-      const fw = document.createElement("div");
-      fw.classList.add("firework");
-      fw.innerHTML = "🎆";
-      fw.style.left = Math.random() * 100 + "vw";
-      fw.style.top = Math.random() * 100 + "vh";
-      document.body.appendChild(fw);
+  // Falling Hearts Generator
+  function createFallingHeart() {
+    const heart = document.createElement("div");
+    heart.classList.add("fall-heart");
+    heart.innerHTML = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.animationDuration = (4 + Math.random() * 3) + "s";
 
-      setTimeout(() => fw.remove(), 1000);
-    }
+    celebrate.appendChild(heart);
+
+    setTimeout(() => heart.remove(), 7000);
   }
 
-  // YES triggers celebration
+  // YES Click
   yesBtn.addEventListener("click", () => {
     card.style.display = "none";
     celebrate.style.display = "flex";
+
+    // Music plays only after user click (mobile allowed)
     music.play();
-    setInterval(fireworks, 800);
+
+    // Start hearts falling
+    setInterval(createFallingHeart, 400);
   });
 </script>
 
