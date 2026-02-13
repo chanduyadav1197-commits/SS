@@ -1,86 +1,162 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Soori ❤️ Subbu</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial;
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background: pink;
-      overflow: hidden;
-    }
-    .card {
-      text-align: center;
-      background: white;
-      padding: 30px;
-      border-radius: 20px;
-      box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    }
-    h1 { color: #e60073; }
-    button {
-      padding: 15px 25px;
-      font-size: 18px;
-      border: none;
-      border-radius: 12px;
-      margin: 15px;
-      cursor: pointer;
-    }
-    #yes {
-      background: green;
-      color: white;
-    }
-    #no {
-      background: red;
-      color: white;
-      position: absolute;
-    }
-    #loveMsg {
-      display: none;
-      font-size: 40px;
-      color: white;
-      font-weight: bold;
-      text-align: center;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Soori ❤️ Subbu</title>
+
+<style>
+  body {
+    margin: 0;
+    height: 100vh;
+    font-family: "Poppins", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(to bottom right, #ff5f9e, #ff99cc);
+    overflow: hidden;
+    transition: 1s;
+  }
+
+  /* Premium Card */
+  .card {
+    width: 90%;
+    max-width: 380px;
+    padding: 35px;
+    text-align: center;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 25px rgba(0,0,0,0.25);
+    color: white;
+  }
+
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+
+  h2 {
+    font-weight: 300;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+  }
+
+  /* Heart Buttons */
+  .heart-btn {
+    width: 120px;
+    height: 110px;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    position: relative;
+    margin: 15px;
+    clip-path: polygon(
+      50% 85%,
+      90% 50%,
+      75% 15%,
+      50% 30%,
+      25% 15%,
+      10% 50%
+    );
+    box-shadow: 0 0 15px rgba(255,255,255,0.4);
+    transition: 0.3s;
+  }
+
+  #yesBtn {
+    background: linear-gradient(to right, #00ff99, #00cc66);
+  }
+
+  #noBtn {
+    background: linear-gradient(to right, #ff3333, #cc0000);
+    position: absolute;
+  }
+
+  /* Celebration Screen */
+  #celebrate {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, #ff1a75, #ffb3d9);
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    font-size: 2.2rem;
+    font-weight: bold;
+  }
+
+  /* Scrolling Text */
+  .scroll-text {
+    position: relative;
+    overflow: hidden;
+    height: 60px;
+    width: 100%;
+    margin-top: 20px;
+  }
+
+  .scroll-text span {
+    position: absolute;
+    width: 100%;
+    animation: scrollUp 3s linear infinite;
+    text-align: center;
+  }
+
+  .scroll-text span:nth-child(2) {
+    animation-delay: 1.5s;
+  }
+
+  @keyframes scrollUp {
+    0% { top: 100%; opacity: 0; }
+    20% { top: 40%; opacity: 1; }
+    80% { top: 0%; opacity: 1; }
+    100% { top: -100%; opacity: 0; }
+  }
+</style>
 </head>
+
 <body>
 
+<!-- Proposal Card -->
 <div class="card" id="card">
   <h1>Hey Subbu ❤️</h1>
-  <h2>Soori is asking...</h2>
+  <h2>Soori wants to ask you...</h2>
   <h1>Will you be mine forever? 💍</h1>
 
-  <button id="yes">Yes 😍</button>
-  <button id="no">No 🙈</button>
+  <button class="heart-btn" id="yesBtn">YES 😍</button>
+  <button class="heart-btn" id="noBtn">NO 🙈</button>
 </div>
 
-<div id="loveMsg">
-  💖 Soori Loves Subbu Forever 💖
+<!-- Celebration -->
+<div id="celebrate">
+  <div class="scroll-text">
+    <span>💖 Soori Loves Subbu 💖</span>
+    <span>🌹 Happy Valentine’s Day Subbu 🌹</span>
+  </div>
 </div>
 
 <script>
-  const noBtn = document.getElementById("no");
-  const yesBtn = document.getElementById("yes");
+  const noBtn = document.getElementById("noBtn");
+  const yesBtn = document.getElementById("yesBtn");
   const card = document.getElementById("card");
-  const loveMsg = document.getElementById("loveMsg");
+  const celebrate = document.getElementById("celebrate");
 
-  // Mobile touch move
+  // NO button runs away (mobile touch)
   noBtn.addEventListener("touchstart", () => {
-    let x = Math.random() * (window.innerWidth - 100);
-    let y = Math.random() * (window.innerHeight - 100);
+    let x = Math.random() * (window.innerWidth - 150);
+    let y = Math.random() * (window.innerHeight - 150);
+
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
   });
 
+  // YES triggers celebration
   yesBtn.addEventListener("click", () => {
-    document.body.style.background = "linear-gradient(to right, #ff4d6d, #ff99cc)";
     card.style.display = "none";
-    loveMsg.style.display = "block";
+    celebrate.style.display = "flex";
   });
 </script>
 
