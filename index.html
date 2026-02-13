@@ -23,7 +23,7 @@
     z-index: -3;
   }
 
-  /* Proposal Text (Middle-Lower Center) */
+  /* Proposal Text */
   .proposal-text {
     position: absolute;
     top: 55%;
@@ -67,42 +67,36 @@
     box-shadow: 0 0 18px rgba(255,50,80,0.6);
   }
 
-  /* Celebration Overlay */
+  /* Celebration Overlay Pleasant */
   #celebrate {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(255,182,193,0.35);
-    backdrop-filter: blur(3px);
+    background: rgba(255, 220, 235, 0.25);
+    backdrop-filter: blur(2px);
     overflow: hidden;
     z-index: 10;
   }
 
-  /* Smooth Infinite Scrolling */
-  .marquee {
+  /* Movie Credits Scroll */
+  .credits {
     position: absolute;
+    bottom: -100%;
     width: 100%;
-    height: 100%;
-    overflow: hidden;
-  }
-
-  .track {
-    position: absolute;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 80px;
+    text-align: center;
     font-size: 3rem;
     font-weight: bold;
     color: #b30059;
-    text-align: center;
-    animation: scrollSmooth 10s linear infinite;
+    animation: creditsRoll 7s linear infinite;
   }
 
-  /* Real smooth seamless loop */
-  @keyframes scrollSmooth {
+  @keyframes creditsRoll {
     0% { transform: translateY(0); }
-    100% { transform: translateY(-50%); }
+    100% { transform: translateY(-200%); }
+  }
+
+  .credits div {
+    margin: 80px 0;
   }
 
   /* Falling Hearts */
@@ -139,7 +133,7 @@
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Proposal Text -->
+<!-- Proposal -->
 <div class="proposal-text">
   Hey Subbu ❤️ <br>
   Will you be mine forever? 💍
@@ -154,16 +148,10 @@
 <!-- Celebration -->
 <div id="celebrate">
 
-  <!-- Smooth Scroll Track -->
-  <div class="marquee">
-    <div class="track">
-      💖 Soori Loves Subbu 💖  
-      🌹 Happy Valentine’s Day Subbu 🌹  
-      💖 Soori Loves Subbu 💖  
-      🌹 Happy Valentine’s Day Subbu 🌹  
-      💖 Soori Loves Subbu 💖  
-      🌹 Happy Valentine’s Day Subbu 🌹  
-    </div>
+  <!-- Credits Style Scroll -->
+  <div class="credits">
+    <div>💖 Soori Loves Subbu 💖</div>
+    <div>🌹 Happy Valentine’s Day Subbu 🌹</div>
   </div>
 
   <div class="final-msg">
@@ -177,10 +165,15 @@
   const celebrate = document.getElementById("celebrate");
   const music = document.getElementById("music");
 
-  // NO Button Escape
+  // NO button moves only in middle area
   noBtn.addEventListener("touchstart", () => {
-    let x = Math.random() * (window.innerWidth - 150);
-    let y = Math.random() * (window.innerHeight - 150);
+    let centerX = window.innerWidth / 2;
+    let centerY = window.innerHeight / 2;
+
+    // Move within middle 300px box
+    let x = centerX + (Math.random() * 300 - 150);
+    let y = centerY + (Math.random() * 200 - 100);
+
     noBtn.style.left = x + "px";
     noBtn.style.top = y + "px";
   });
