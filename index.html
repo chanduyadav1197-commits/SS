@@ -13,32 +13,32 @@
     font-family: "Poppins", sans-serif;
   }
 
-  /* Full Photo Background */
+  /* Background Photo */
   .bg {
     position: fixed;
     inset: 0;
     background: url("subbu.jpg") center/contain no-repeat;
     background-color: black;
-    filter: brightness(0.8);
+    filter: brightness(0.85);
     z-index: -3;
   }
 
-  /* Plain Proposal Text */
+  /* Proposal Text (Middle-Lower Center) */
   .proposal-text {
     position: absolute;
-    top: 15%;
+    top: 55%;
     width: 100%;
     text-align: center;
     color: white;
-    font-size: 2rem;
+    font-size: 2.2rem;
     font-weight: bold;
-    text-shadow: 0 0 12px rgba(0,0,0,0.7);
+    text-shadow: 0 0 12px rgba(0,0,0,0.8);
   }
 
   /* Buttons */
   .btns {
     position: absolute;
-    bottom: 18%;
+    bottom: 15%;
     width: 100%;
     text-align: center;
   }
@@ -67,18 +67,18 @@
     box-shadow: 0 0 18px rgba(255,50,80,0.6);
   }
 
-  /* Celebration Overlay (Transparent) */
+  /* Celebration Overlay */
   #celebrate {
     display: none;
     position: fixed;
     inset: 0;
-    background: rgba(255,182,193,0.45);
-    backdrop-filter: blur(4px);
+    background: rgba(255,182,193,0.35);
+    backdrop-filter: blur(3px);
     overflow: hidden;
     z-index: 10;
   }
 
-  /* Continuous Smooth Scroll */
+  /* Smooth Infinite Scrolling */
   .marquee {
     position: absolute;
     width: 100%;
@@ -86,7 +86,7 @@
     overflow: hidden;
   }
 
-  .marquee-content {
+  .track {
     position: absolute;
     width: 100%;
     display: flex;
@@ -96,17 +96,13 @@
     font-weight: bold;
     color: #b30059;
     text-align: center;
-    animation: marqueeScroll 8s linear infinite;
+    animation: scrollSmooth 10s linear infinite;
   }
 
-  /* Second copy for seamless loop */
-  .marquee-content.clone {
-    top: 100%;
-  }
-
-  @keyframes marqueeScroll {
+  /* Real smooth seamless loop */
+  @keyframes scrollSmooth {
     0% { transform: translateY(0); }
-    100% { transform: translateY(-100%); }
+    100% { transform: translateY(-50%); }
   }
 
   /* Falling Hearts */
@@ -129,7 +125,7 @@
     text-align: center;
     font-size: 2rem;
     color: white;
-    text-shadow: 0 0 12px rgba(0,0,0,0.7);
+    text-shadow: 0 0 12px rgba(0,0,0,0.8);
   }
 </style>
 </head>
@@ -143,7 +139,7 @@
   <source src="song.mp3" type="audio/mpeg">
 </audio>
 
-<!-- Plain Proposal Text -->
+<!-- Proposal Text -->
 <div class="proposal-text">
   Hey Subbu ❤️ <br>
   Will you be mine forever? 💍
@@ -158,14 +154,13 @@
 <!-- Celebration -->
 <div id="celebrate">
 
-  <!-- Continuous Scroll -->
+  <!-- Smooth Scroll Track -->
   <div class="marquee">
-    <div class="marquee-content">
+    <div class="track">
       💖 Soori Loves Subbu 💖  
       🌹 Happy Valentine’s Day Subbu 🌹  
-    </div>
-
-    <div class="marquee-content clone">
+      💖 Soori Loves Subbu 💖  
+      🌹 Happy Valentine’s Day Subbu 🌹  
       💖 Soori Loves Subbu 💖  
       🌹 Happy Valentine’s Day Subbu 🌹  
     </div>
